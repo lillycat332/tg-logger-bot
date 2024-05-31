@@ -1,9 +1,23 @@
-import { Bot } from 'grammy';
+import { Bot, Composer, Context, Filter, FilterQuery } from 'grammy';
 import { env } from 'process';
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 import SQL from 'sql-template-strings';
 import minimist from 'minimist';
+
+const dumpMsg = <T extends {
+	chatId: number,
+	msgId: number,
+	from: { id: number },
+	msg: { text: string }
+}>(message: T) => {
+	console.log(`
+Chat ID:         ${message.chatId}
+Message ID:      ${message.msgId}
+Sender ID:       ${message.from.id}
+Message Context: ${message.msg.text}`
+	);
+}
 
 const main = async (token: string, verbose = false, database = './database.db') => {
 	// open connection to database
@@ -35,12 +49,7 @@ const main = async (token: string, verbose = false, database = './database.db') 
 		ctx => {
 			// if we're in verbose mode, dump recv. message data to console
 			if (verbose) {
-				console.log(`
-Chat ID:         ${ctx.chatId}
-Message ID:      ${ctx.msgId}
-Sender ID:       ${ctx.from.id}
-Message Context: ${ctx.msg.text}`
-				);
+				dumpMsg(ctx);
 			}
 
 			// write to the DB
