@@ -5,12 +5,7 @@ import { open } from 'sqlite';
 import SQL from 'sql-template-strings';
 import minimist from 'minimist';
 
-const dumpMsg = <T extends {
-	chatId: number,
-	msgId: number,
-	from: { id: number },
-	msg: { text: string }
-}>(message: T) => {
+const dumpMsg = (message: any) => {
 	console.log(`
 Chat ID:         ${message.chatId}
 Message ID:      ${message.msgId}
@@ -47,12 +42,10 @@ const main = async (token: string, verbose = false, database = './database.db') 
 	// respond to message events. 
 	bot.on('message:text',
 		ctx => {
-			// if we're in verbose mode, dump recv. message data to console
 			if (verbose) {
 				dumpMsg(ctx);
 			}
 
-			// write to the DB
 			db.run(SQL`
 				INSERT INTO messages
 									( msg_id
@@ -68,6 +61,19 @@ const main = async (token: string, verbose = false, database = './database.db') 
 			`);
 		}
 	);
+
+	bot.on('edit', ctx => {
+		if (verbose) {
+			dumpMsg(ctx);
+		}
+
+		db.run(SQL`
+			UPDATE messages
+			SET    msg_content = ${ctx.msg.text}
+			WHERE  msg_chat_id = ${ctx.chatId} 
+			AND    msg_id      = ${ctx.msgId} 
+		`)
+	});
 
 	bot.start();
 }
