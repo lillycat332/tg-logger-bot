@@ -27,7 +27,9 @@ const main = async (token: string, verbose = false, database = './database.db') 
 			msg_id      INTEGER
 		, msg_content TEXT
 	  ,	msg_user_id INTEGER
-		, msg_chat_id INTEGER 
+	  , msg_user_name TEXT
+		, msg_chat_id INTEGER
+		, msg_chat_date DATE 
 		, PRIMARY KEY (msg_id, msg_chat_id)
 	);`);
 
@@ -46,17 +48,23 @@ const main = async (token: string, verbose = false, database = './database.db') 
 				dumpMsg(ctx);
 			}
 
+			let date = new Date(ctx.msg.date)
+
 			db.run(SQL`
 				INSERT INTO messages
 									( msg_id
 									, msg_content
 									, msg_user_id
-									, msg_chat_id 
+									, msg_user_name
+									, msg_chat_id
+									, msg_chat_date
 									)
 				VALUES    ( ${ctx.msgId}
 									, ${ctx.msg.text}
+									, ${ctx.from.first_name}
 									, ${ctx.from.id}
 									, ${ctx.chatId}
+									, ${date}
 									);
 			`);
 		}
