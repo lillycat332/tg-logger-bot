@@ -5,7 +5,7 @@ import { open } from 'sqlite';
 import SQL from 'sql-template-strings';
 import minimist from 'minimist';
 
-const main = async (token: string, verbose = false,) => {
+const main = async (token: string, verbose = false, database = './database.db') => {
 	// open connection to database
 	const db = await open({
 		filename: './database.db',
@@ -71,4 +71,4 @@ if (typeof argv.token !== 'string') {
 }
 
 // init bot
-main(argv.token, argv.v);
+main(argv.token, argv.v, argv.database ?? './database.db');
