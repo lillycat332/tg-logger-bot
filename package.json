@@ -1,7 +1,7 @@
 {
   "name": "tg-logger-bot",
   "version": "1.0.0",
-  "main": "src/app.ts",
+  "main": "bin/app.js",
   "author": "Lilly Cham <me@lillycham.com>",
   "repository": "https://github.com/lillycat332/tg-logger-bot",
   "license": "MIT",
