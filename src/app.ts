@@ -17,7 +17,7 @@ Message Context: ${message.msg.text}`
 const main = async (token: string, verbose = false, database = './database.db') => {
 	// open connection to database
 	const db = await open({
-		filename: './database.db',
+		filename: database,
 		driver: sqlite3.cached.Database
 	});
 
