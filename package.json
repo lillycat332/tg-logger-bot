@@ -1,0 +1,25 @@
+{
+  "name": "tg-logger-bot",
+  "version": "1.0.0",
+  "main": "src/app.ts",
+  "author": "Lilly <me@lillycham.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^20.12.13",
+    "grammy": "^1.24.0",
+    "minimist": "^1.2.8",
+    "sql-template-strings": "^2.2.2",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@types/sqlite3": "^3.1.11",
+    "ts-node": "^10.9.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "serve": "tsc && node bin/app.js"
+  }
+}
